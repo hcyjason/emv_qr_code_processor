@@ -21,9 +21,9 @@ module EmvQrCodeProcessor
     end
 
     def encode_data_objects(data, template)
-      sorted = data.sort_by { |name, _| find_data_object_type(name, template).id }
+      # sorted = data.sort_by { |name, _| find_data_object_type(name, template).id }
 
-      sorted.each_with_object("") do |(name, value), result|
+      data.each_with_object("") do |(name, value), result|
         data_object_type = find_data_object_type(name, template)
         value = encode_data_objects(value, data_object_type) unless data_object_type.primitive?
         result << format(data_object_type.id, value)
