@@ -23,6 +23,32 @@ module EmvQrCodeProcessor
         Digest::CRC16CCITT.new.update([data, id, LENGTH].join).to_s.upcase
       end
     end
+    
+    class HkFpsDataFieldType < TemplateType
+      PLACEHOLDER = "***".freeze
+
+      def initialize
+        data_object_types = [
+          DataObjectType.new(id: "00", name: :global_unique_identifier),
+          DataObjectType.new(id: "01", name: :clearing_code),
+          DataObjectType.new(id: "02", name: :fps_identifier),
+          DataObjectType.new(id: "03", name: :phone_number),
+          DataObjectType.new(id: "04", name: :email_address),
+          DataObjectType.new(id: "05", name: :merchant_timeout_time),
+          DataObjectType.new(id: "06", name: :editable_transaction_amount_identifier)
+        ]
+
+        ("07".."99").each do |id|
+          data_object_types << DataObjectType.new(id: id, name: :"reserved_#{id}")
+        end
+
+        super(
+          id: "26",
+          name: :hk_fps_data_field,
+          data_object_types: data_object_types
+        )
+      end
+    end
 
     class AdditionalDataFieldType < TemplateType
       PLACEHOLDER = "***".freeze
@@ -52,12 +78,14 @@ module EmvQrCodeProcessor
     end
 
     CRC = CRCType.new
+    HK_FPS_DATA_FIELD = HkFpsDataFieldType.new
     ADDITIONAL_DATA_FIELD = AdditionalDataFieldType.new
 
     DATA_OBJECT_TYPES = [
       DataObjectType.new(id: "00", name: :payload_format_indicator),
       DataObjectType.new(id: "01", name: :point_of_initiation_method),
       DataObjectType.new(id: "15", name: :"merchant_account_information.union_pay"),
+      HK_FPS_DATA_FIELD,
       DataObjectType.new(id: "52", name: :merchant_category_code),
       DataObjectType.new(id: "53", name: :transaction_currency),
       DataObjectType.new(id: "54", name: :transaction_amount),
