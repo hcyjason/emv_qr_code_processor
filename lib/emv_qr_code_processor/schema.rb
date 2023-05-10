@@ -88,7 +88,6 @@ module EmvQrCodeProcessor
       HK_FPS_DATA_FIELD,
       DataObjectType.new(id: "52", name: :merchant_category_code),
       DataObjectType.new(id: "53", name: :transaction_currency),
-      DataObjectType.new(id: "54", name: :transaction_amount),
       DataObjectType.new(id: "55", name: :tip_or_convenience_fee_indicator),
       DataObjectType.new(id: "56", name: :value_of_convenience_fee_fixed),
       DataObjectType.new(id: "57", name: :value_of_convenience_fee_percentage),
@@ -96,6 +95,7 @@ module EmvQrCodeProcessor
       DataObjectType.new(id: "59", name: :merchant_name),
       DataObjectType.new(id: "60", name: :merchant_city),
       DataObjectType.new(id: "61", name: :postal_code),
+      DataObjectType.new(id: "54", name: :transaction_amount),
       ADDITIONAL_DATA_FIELD,
       CRC,
       DataObjectType.new(id: "64", name: :merchant_information_language)
